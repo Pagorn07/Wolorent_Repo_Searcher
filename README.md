@@ -15,7 +15,7 @@ with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) 
 
 ## Execute Symfony Commands
 
-* php bin/console app:search-words-in-github-repository-command <repository_name>
+* php bin/console app:search-words-in-github-repository-command <owner_name> <repository_name> <branch_name>
 
 ## Features
 
