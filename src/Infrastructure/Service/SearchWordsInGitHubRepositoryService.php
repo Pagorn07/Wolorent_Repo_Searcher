@@ -2,10 +2,28 @@
 
 namespace App\Infrastructure\Service;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+
 class SearchWordsInGitHubRepositoryService
 {
-    public function execute(string $repositoryName): string
+    private $httpClient;
+
+    public function __construct(Client $httpClient)
     {
-        return "Ha entrado";
+        $this->httpClient = $httpClient;
+    }
+
+    public function execute(string $ownerName, string $repositoryName, string $branchName): array
+    {
+        try {
+            $response = $this->httpClient->get("$ownerName/$repositoryName/git/trees/$branchName?recursive=1");
+
+            $body = $response->getBody()->getContents();
+
+            return json_decode($body, true);
+        } catch (GuzzleException $exception) {
+            return ['error' => $exception->getMessage()];
+        }
     }
 }

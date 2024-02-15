@@ -12,9 +12,6 @@ class SearchWordsInGitHubRepositoryCommand extends Command
 {
     private const COMMAND_NAME = "app:search-words-in-github-repository-command";
     private const COMMAND_DESCRIPTION = "This command searches certain words inside a GitHub repo!";
-    
-    private const REPOSITORY_TO_FIND_ARGUMENT_NAME = "repositoryToFind";
-    private const REPOSITORY_TO_FIND_ARGUMENT_DESCRIPTION = "Name of the GitHub repository to search.";
 
     private $searchWordsInGitHubRepositoryService;
 
@@ -29,17 +26,22 @@ class SearchWordsInGitHubRepositoryCommand extends Command
         $this
             ->setName(self::COMMAND_NAME)
             ->setDescription(self::COMMAND_DESCRIPTION)
-            ->addArgument(self::REPOSITORY_TO_FIND_ARGUMENT_NAME, InputArgument::REQUIRED, self::REPOSITORY_TO_FIND_ARGUMENT_DESCRIPTION);
+            ->addArgument("ownerName", InputArgument::REQUIRED, "Owner of the GitHub repository.")
+            ->addArgument("repositoryName", InputArgument::REQUIRED, "Name of the GitHub repository.")
+            ->addArgument("branchName", InputArgument::REQUIRED, "Branch of the GitHub repository.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $repositoryToFind = $input->getArgument(self::REPOSITORY_TO_FIND_ARGUMENT_NAME);
+        $ownerName = $input->getArgument("ownerName");
+        $repositoryName = $input->getArgument("repositoryName");
+        $branchName = $input->getArgument("branchName");
 
-        $a = $this->searchWordsInGitHubRepositoryService->execute($repositoryToFind);
+        $a = $this->searchWordsInGitHubRepositoryService->execute($ownerName, $repositoryName, $branchName);
 
-        $output->writeln("Searching GitHub repository: " . $repositoryToFind);
-        $output->writeln($a);
+        $output->writeln("Searching GitHub repository: " . $ownerName . "/" . $repositoryName . " Branch: " . $branchName);
+        
+        $output->writeln(print_r($a, true));
 
         return Command::SUCCESS;
     }

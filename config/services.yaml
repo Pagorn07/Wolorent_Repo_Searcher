@@ -22,3 +22,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    GuzzleHttp\Client:
+        arguments:
+            - { base_uri: '%env(GITHUB_API_BASE_URI)%' } # Base URI for GitHub API
