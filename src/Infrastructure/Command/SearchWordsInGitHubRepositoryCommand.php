@@ -37,11 +37,13 @@ class SearchWordsInGitHubRepositoryCommand extends Command
         $repositoryName = $input->getArgument("repositoryName");
         $branchName = $input->getArgument("branchName");
 
-        $a = $this->searchWordsInGitHubRepositoryService->execute($ownerName, $repositoryName, $branchName);
-
         $output->writeln("Searching GitHub repository: " . $ownerName . "/" . $repositoryName . " Branch: " . $branchName);
+
+        $response = $this->searchWordsInGitHubRepositoryService->execute($ownerName, $repositoryName, $branchName);
+
         
-        $output->writeln(print_r($a, true));
+        
+        $output->writeln(print_r($response, true));
 
         return Command::SUCCESS;
     }
