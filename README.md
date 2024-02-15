@@ -13,6 +13,10 @@ with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) 
 4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
 5. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
+## Execute Symfony Commands
+
+* php bin/console app:search-words-in-github-repository-command <repository_name>
+
 ## Features
 
 * Production, development and CI ready
