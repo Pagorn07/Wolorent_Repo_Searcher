@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Command;
 
+use App\Infrastructure\Service\SearchWordsInGitHubRepositoryService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,6 +16,14 @@ class SearchWordsInGitHubRepositoryCommand extends Command
     private const REPOSITORY_TO_FIND_ARGUMENT_NAME = "repositoryToFind";
     private const REPOSITORY_TO_FIND_ARGUMENT_DESCRIPTION = "Name of the GitHub repository to search.";
 
+    private $searchWordsInGitHubRepositoryService;
+
+    public function __construct(SearchWordsInGitHubRepositoryService $searchWordsInGitHubRepositoryService)
+    {
+        parent::__construct();
+        $this->searchWordsInGitHubRepositoryService = $searchWordsInGitHubRepositoryService;
+    }
+
     protected function configure(): void
     {
         $this
@@ -27,7 +36,10 @@ class SearchWordsInGitHubRepositoryCommand extends Command
     {
         $repositoryToFind = $input->getArgument(self::REPOSITORY_TO_FIND_ARGUMENT_NAME);
 
+        $a = $this->searchWordsInGitHubRepositoryService->execute($repositoryToFind);
+
         $output->writeln("Searching GitHub repository: " . $repositoryToFind);
+        $output->writeln($a);
 
         return Command::SUCCESS;
     }
